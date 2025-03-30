@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 
 public class ShipMovement : MonoBehaviour
@@ -12,6 +13,7 @@ public class ShipMovement : MonoBehaviour
     [Header("Fuel Settings")]
     public float maxFuel = 100f;
     public float fuelConsumption = 1f;
+    public GameObject fuelText;
     
     private Rigidbody rb;
     private float currentFuel;
@@ -86,7 +88,11 @@ public class ShipMovement : MonoBehaviour
     void UpdateFuel()
     {
         // Atualiza a UI do combustível (implemente sua própria UI aqui)
-        // Debug.Log($"Fuel: {currentFuel.ToString("F1")}%");
+        if (fuelText != null)
+        {
+            fuelText.GetComponent<TextMeshProUGUI>().text = "Fuel: " + currentFuel.ToString("F1");
+        }
+        
     }
 
     void OnCollisionEnter(Collision collision)
@@ -103,7 +109,6 @@ public class ShipMovement : MonoBehaviour
         {
             Instantiate(successVFX, transform.position, transform.rotation);
         }
-        // Desativa estabilização temporariamente após colisão
         if (collision.relativeVelocity.magnitude > 1f)
         {
             isStabilizing = false;
